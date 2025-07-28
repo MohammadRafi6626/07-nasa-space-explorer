@@ -1,3 +1,29 @@
+/* Video link button for non-YouTube videos */
+.video-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0 10px 0;
+}
+
+.video-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #FC3D21 0%, #E31E24 100%);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 12px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(252, 61, 33, 0.2);
+  transition: background 0.2s, transform 0.2s;
+  letter-spacing: 1px;
+}
+
+.video-btn:hover {
+  background: linear-gradient(135deg, #E31E24 0%, #C41E3A 100%);
+  transform: scale(1.05);
+}
 /* Global reset & box sizing */
 * {
   box-sizing: border-box;

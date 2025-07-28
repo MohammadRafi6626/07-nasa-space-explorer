@@ -45,7 +45,7 @@ function buildApiUrl(startDate, endDate) {
 
 // Function to show a loading message
 function showLoading() {
-  gallery.innerHTML = `<p>Loading space images...</p>`;
+  gallery.innerHTML = `<p style="font-size:1.2rem; text-align:center;">🔄 Loading space photos…</p>`;
 }
 
 // Function to create gallery items from API data
@@ -64,14 +64,36 @@ function displayGallery(items) {
         <p>${item.date}</p>
       `;
     } else if (item.media_type === 'video') {
-      // Embed video with title and date
-      card.innerHTML = `
-        <div class="video-wrapper">
-          <iframe src="${item.url}" frameborder="0" allowfullscreen title="${item.title}"></iframe>
-        </div>
-        <h3>${item.title}</h3>
-        <p>${item.date}</p>
-      `;
+      // Check if the video is a YouTube link
+      const isYouTube = item.url.includes('youtube.com') || item.url.includes('youtu.be');
+      if (isYouTube) {
+        // Embed YouTube video
+        let embedUrl = item.url;
+        // Convert youtu.be short links to embed
+        if (item.url.includes('youtu.be')) {
+          const videoId = item.url.split('youtu.be/')[1];
+          embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        } else if (item.url.includes('watch?v=')) {
+          const videoId = item.url.split('watch?v=')[1];
+          embedUrl = `https://www.youtube.com/embed/${videoId}`;
+        }
+        card.innerHTML = `
+          <div class="video-wrapper">
+            <iframe src="${embedUrl}" frameborder="0" allowfullscreen title="${item.title}"></iframe>
+          </div>
+          <h3>${item.title}</h3>
+          <p>${item.date}</p>
+        `;
+      } else {
+        // For non-YouTube videos, show a clear link
+        card.innerHTML = `
+          <div class="video-link">
+            <a href="${item.url}" target="_blank" rel="noopener" class="video-btn">▶️ Watch Video</a>
+          </div>
+          <h3>${item.title}</h3>
+          <p>${item.date}</p>
+        `;
+      }
     }
     // Only add card if it has content (image or video)
     if (card.innerHTML.trim() !== '') {
